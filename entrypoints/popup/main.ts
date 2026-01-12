@@ -638,7 +638,7 @@ function renderHourlyCharts(cacheItem: WeatherCacheItem | null) {
     hideChartHover();
     return;
   }
-  const { min, max, scaleMin, scaleMax } = bounds;
+  const { max, scaleMin, scaleMax } = bounds;
   const nowIndex = activeDayIndex === 0 ? findClosestTimeIndex(time, cacheItem.current.time) : undefined;
   chartRangeEl.textContent = formatChartRangeLabel(
     cacheItem.dailyForecast?.time?.[activeDayIndex],

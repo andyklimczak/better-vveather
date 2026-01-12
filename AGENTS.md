@@ -110,3 +110,4 @@
 - Restart browser; verify data loads from `storage.local`.
 - Verify units switch updates API params and display.
 - Confirm Chrome + Firefox build with WXT.
+- Run `npm run lint`.
