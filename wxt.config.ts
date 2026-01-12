@@ -24,6 +24,14 @@ export default defineConfig({
       page: 'options.html',
       open_in_tab: true,
     },
+    browser_specific_settings: {
+      gecko: {
+        id: '{4402e563-bfc0-4d5e-b4db-51c65836e661}',
+        data_collection_permissions: {
+          required: ['locationInfo'],
+        },
+      },
+    },
     permissions: ['storage', 'alarms'],
     host_permissions: ['https://api.open-meteo.com/*', 'https://geocoding-api.open-meteo.com/*'],
   },
