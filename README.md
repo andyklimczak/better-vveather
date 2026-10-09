@@ -27,7 +27,7 @@ In GitHub Settings → Secrets and variables → Actions, configure these **repo
 - `JWT_ISSUER`: the API key/issuer from Mozilla's API credentials page.
 - `JWT_SECRET`: the corresponding API secret.
 
-The workflow verifies these with a read-only Mozilla API request and maps them to WXT's `FIREFOX_JWT_ISSUER` and `FIREFOX_JWT_SECRET`. If the pair is absent or Mozilla returns HTTP 401, it tries the existing legacy `FIREFOX_ISSUER` / `FIREFOX_SECRET` repository secrets. Other errors fail immediately. Credentials are never printed. The add-on ID is taken from the existing listing: `{4402e563-bfc0-4d5e-b4db-51c65836e661}`. No new listing is created.
+The workflow uses only `JWT_ISSUER` and `JWT_SECRET`. It verifies them with a read-only Mozilla API request and passes them directly to WXT's submission options. Missing or rejected credentials fail immediately; there is no fallback credential pair. Credentials are never printed. The add-on ID is taken from the existing listing: `{4402e563-bfc0-4d5e-b4db-51c65836e661}`. No new listing is created.
 
 Each publish builds version `0.<GitHub run number>.<run attempt>`, so ordinary pushes and reruns have distinct AMO versions without automated commits. Keep the CI workflow's run counter intact; if replacing the workflow or moving to a higher manual version series, update this scheme before publishing. Avoid rerunning old runs after a newer version has shipped.
 

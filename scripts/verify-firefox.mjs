@@ -6,7 +6,7 @@ import process from 'node:process';
 // A successful upload is not the same as Mozilla approving a public release.
 const manifest = JSON.parse(await readFile('.output/firefox-mv2/manifest.json', 'utf8'));
 const id = manifest.browser_specific_settings.gecko.id;
-const { FIREFOX_JWT_ISSUER: issuer, FIREFOX_JWT_SECRET: secret } = process.env;
+const { JWT_ISSUER: issuer, JWT_SECRET: secret } = process.env;
 if (!issuer || !secret) throw new Error('Firefox JWT credentials are required');
 const issuedAt = Math.floor(Date.now() / 1000);
 const encode = (value) => Buffer.from(JSON.stringify(value)).toString('base64url');

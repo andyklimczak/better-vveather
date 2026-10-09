@@ -65,16 +65,18 @@ jobs:
       - name: Verify Mozilla API credentials
         env:
           FIREFOX_EXTENSION_ID: '{4402e563-bfc0-4d5e-b4db-51c65836e661}'
-          FIREFOX_JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
-          FIREFOX_JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          LEGACY_FIREFOX_ISSUER: ${{ secrets.FIREFOX_ISSUER }}
-          LEGACY_FIREFOX_SECRET: ${{ secrets.FIREFOX_SECRET }}
+          JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: node scripts/select-firefox-credentials.mjs
       - name: Submit listed update to Firefox Add-ons
         env:
           FIREFOX_EXTENSION_ID: '{4402e563-bfc0-4d5e-b4db-51c65836e661}'
+          JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           npx wxt submit \
+            --firefox-jwt-issuer "$JWT_ISSUER" \
+            --firefox-jwt-secret "$JWT_SECRET" \
             --firefox-channel listed \
             --firefox-zip .output/*-firefox.zip \
             --firefox-sources-zip .output/*-sources.zip
