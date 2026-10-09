@@ -14,7 +14,7 @@ const unsigned = `${encode({ alg: 'HS256', typ: 'JWT' })}.${encode({
   iss: issuer, jti: randomUUID(), iat: issuedAt, exp: issuedAt + 60,
 })}`;
 const signature = createHmac('sha256', secret).update(unsigned).digest('base64url');
-const url = `https://addons.mozilla.org/api/v5/addons/addon/${encodeURIComponent(id)}/versions/${encodeURIComponent(manifest.version)}/`;
+const url = `https://addons.mozilla.org/api/v5/addons/addon/${encodeURIComponent(id)}/versions/v${encodeURIComponent(manifest.version)}/`;
 const response = await fetch(url, {
   headers: { Authorization: `JWT ${unsigned}.${signature}` },
   signal: AbortSignal.timeout(30_000),

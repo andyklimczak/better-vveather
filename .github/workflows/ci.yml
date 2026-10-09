@@ -62,14 +62,18 @@ jobs:
         run: npm version "0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}" --no-git-tag-version
       - name: Package Firefox extension and review sources
         run: npm run zip:firefox
-      - name: Submit listed update to Firefox Add-ons
+      - name: Verify Mozilla API credentials
         env:
           FIREFOX_EXTENSION_ID: '{4402e563-bfc0-4d5e-b4db-51c65836e661}'
           FIREFOX_JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
           FIREFOX_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          LEGACY_FIREFOX_ISSUER: ${{ secrets.FIREFOX_ISSUER }}
+          LEGACY_FIREFOX_SECRET: ${{ secrets.FIREFOX_SECRET }}
+        run: node scripts/select-firefox-credentials.mjs
+      - name: Submit listed update to Firefox Add-ons
+        env:
+          FIREFOX_EXTENSION_ID: '{4402e563-bfc0-4d5e-b4db-51c65836e661}'
         run: |
-          test -n "$FIREFOX_JWT_ISSUER" || { echo 'Missing JWT_ISSUER repository secret'; exit 1; }
-          test -n "$FIREFOX_JWT_SECRET" || { echo 'Missing JWT_SECRET repository secret'; exit 1; }
           npx wxt submit \
             --firefox-channel listed \
             --firefox-zip .output/*-firefox.zip \
