@@ -1,0 +1,90 @@
+/* Shared by the popup and Options. Follow OS/browser changes without a reload. */
+:root {
+  color-scheme: light;
+  --chart-temp: #e76f51;
+  --chart-wind: #2a9d8f;
+  --chart-humidity: #4c6ef5;
+  --chart-precip: #3a86ff;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ink: #f0eee9;
+    --muted: #bbbfc7;
+    --accent: #376e73;
+    --accent-strong: #9edbd5;
+    --card: #202a36;
+    --border: rgba(210, 225, 240, 0.18);
+    --shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+    --chart-temp: #ffa18a;
+    --chart-wind: #6dd3c4;
+    --chart-humidity: #a5b4ff;
+    --chart-precip: #85baff;
+  }
+
+  body {
+    background: linear-gradient(135deg, #151c27 0%, #1b2b32 55%, #1d253b 100%);
+  }
+
+  .nav,
+  .chart-tab:not(.is-active),
+  .sparkline,
+  input[readonly] {
+    background: #253140;
+  }
+
+  .icon-wrap,
+  .forecast-card,
+  .icon-btn,
+  .empty-card,
+  .ghost,
+  .location-row,
+  .suggestion {
+    background: #2a3645;
+  }
+
+  .ghost {
+    color: var(--ink);
+  }
+
+  input,
+  select,
+  .suggestions {
+    background: #182330;
+    border-color: rgba(210, 225, 240, 0.4);
+  }
+
+  input::placeholder {
+    color: var(--muted);
+    opacity: 1;
+  }
+
+  .forecast-card:hover,
+  .forecast-card:focus-visible,
+  .suggestion:hover,
+  .suggestion:focus-visible {
+    background: #354457;
+    border-color: var(--accent-strong);
+  }
+
+  .chart-marker {
+    background: rgba(230, 240, 255, 0.65);
+  }
+
+  .form-error,
+  .row-error {
+    color: #ffb4a5;
+  }
+
+  .danger {
+    background: #ad352c;
+  }
+}

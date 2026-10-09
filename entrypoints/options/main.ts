@@ -1,4 +1,5 @@
 import './style.css';
+import '@/assets/theme.css';
 import { fetchOpenMeteoGeocode, type GeocodeResult } from '@/lib/open-meteo';
 import { addLocation, getLocations, getSettings, saveLocations, saveSettings } from '@/lib/storage';
 import type { Location, Settings } from '@/lib/types';
@@ -115,7 +116,9 @@ function showAddError(message: string | null) {
 }
 
 function formatGeocodeLabel(result: GeocodeResult) {
-  const parts = [result.name, result.admin1, result.country].filter(Boolean);
+  const parts = [result.name, result.admin1, result.country].filter(
+    (part): part is string => Boolean(part),
+  );
   const seen = new Set<string>();
   const unique = parts.filter((part) => {
     const key = part.trim().toLowerCase();

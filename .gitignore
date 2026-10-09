@@ -12,6 +12,9 @@ node_modules
 stats.html
 stats-*.json
 .wxt
+test-results/
+playwright-report/
+.env*
 web-ext.config.ts
 
 # Editor directories and files

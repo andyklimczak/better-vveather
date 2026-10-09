@@ -7,4 +7,10 @@ export default tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    files: ['scripts/**/*.mjs', 'tests/**/*.mjs'],
+    languageOptions: {
+      globals: { Buffer: 'readonly', fetch: 'readonly', AbortSignal: 'readonly', URL: 'readonly' },
+    },
+  },
 );

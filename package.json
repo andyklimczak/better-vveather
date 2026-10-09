@@ -13,11 +13,13 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "lint": "eslint .",
+    "test": "playwright test",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "1.64.0",
     "eslint": "^9.39.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.2",

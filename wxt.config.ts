@@ -3,6 +3,13 @@ import { defineConfig } from 'wxt';
 // See https://wxt.dev/api/config.html
 const firefoxBinary = process.env.FIREFOX_BINARY ?? 'firefox';
 
+// Firefox supports this field, but WXT's bundled manifest types predate it.
+const firefoxDataCollection = {
+  data_collection_permissions: {
+    required: ['locationInfo'],
+  },
+};
+
 export default defineConfig({
   vite: () => ({
     build: {
@@ -27,9 +34,7 @@ export default defineConfig({
     browser_specific_settings: {
       gecko: {
         id: '{4402e563-bfc0-4d5e-b4db-51c65836e661}',
-        data_collection_permissions: {
-          required: ['locationInfo'],
-        },
+        ...firefoxDataCollection,
       },
     },
     permissions: ['storage', 'alarms'],

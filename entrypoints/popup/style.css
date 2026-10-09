@@ -1,3 +1,5 @@
+/* Keep shared theme overrides above page defaults even after CSS extraction. */
+@layer base {
 :root {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
   font-synthesis: none;
@@ -413,7 +415,7 @@ button {
 }
 
 .empty {
-  display: none;
+  display: flex;
   min-height: 220px;
   align-items: center;
   justify-content: center;
@@ -468,4 +470,5 @@ button {
     opacity: 1;
     transform: translateY(0);
   }
+}
 }

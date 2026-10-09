@@ -1,4 +1,5 @@
 import './style.css';
+import '@/assets/theme.css';
 import { getActiveLocationId, getLocations, getSettings, getWeatherCache, setActiveLocationId } from '@/lib/storage';
 import { describeWeatherCode } from '@/lib/weather-codes';
 import { getIconPaths, pickWeatherIcon, pickWeatherIconNameByCode } from '@/lib/weather-icons';
@@ -524,7 +525,7 @@ const METRIC_CONFIG: Record<
 > = {
   temp: {
     label: 'Temp',
-    color: '#e76f51',
+    color: 'var(--chart-temp)',
     getValues: (hourly) => hourly.temperature,
     formatRange: (values, localSettings) =>
       formatRange(values, (min, max) => {
@@ -535,7 +536,7 @@ const METRIC_CONFIG: Record<
   },
   wind: {
     label: 'Wind',
-    color: '#2a9d8f',
+    color: 'var(--chart-wind)',
     minFloor: 0,
     getValues: (hourly) => hourly.windSpeed,
     formatRange: (values, localSettings) =>
@@ -547,7 +548,7 @@ const METRIC_CONFIG: Record<
   },
   humidity: {
     label: 'Humidity',
-    color: '#4c6ef5',
+    color: 'var(--chart-humidity)',
     minFloor: 0,
     getValues: (hourly) => hourly.humidity,
     formatRange: (values) => formatRange(values, (min, max) => `${Math.round(min)}–${Math.round(max)}%`),
@@ -555,7 +556,7 @@ const METRIC_CONFIG: Record<
   },
   precip: {
     label: 'Precip',
-    color: '#3a86ff',
+    color: 'var(--chart-precip)',
     minFloor: 0,
     getValues: (hourly) => hourly.precipitation,
     formatRange: (values, localSettings) =>

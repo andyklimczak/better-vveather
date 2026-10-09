@@ -3,6 +3,10 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   lint:
@@ -13,9 +17,61 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 22
           cache: npm
       - name: Install
         run: npm ci
       - name: Lint
         run: npm run lint
+      - name: Type check
+        run: npm run compile
+      - name: Build Chrome
+        run: npm run build
+      - name: Build Firefox
+        run: npm run build:firefox
+      - name: Install test browsers
+        run: npx playwright install --with-deps chromium firefox
+      - name: Test light and dark themes
+        run: npm test
+
+  publish-firefox:
+    needs: lint
+    if: >-
+      github.repository == 'andyklimczak/better-vveather' &&
+      github.ref == 'refs/heads/master' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: firefox-amo-publish
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Assign unique release version
+        # Retries get a new version too; AMO does not accept duplicate versions.
+        run: npm version "0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}" --no-git-tag-version
+      - name: Package Firefox extension and review sources
+        run: npm run zip:firefox
+      - name: Submit listed update to Firefox Add-ons
+        env:
+          FIREFOX_EXTENSION_ID: '{4402e563-bfc0-4d5e-b4db-51c65836e661}'
+          FIREFOX_JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
+          test -n "$FIREFOX_JWT_ISSUER" || { echo 'Missing JWT_ISSUER repository secret'; exit 1; }
+          test -n "$FIREFOX_JWT_SECRET" || { echo 'Missing JWT_SECRET repository secret'; exit 1; }
+          npx wxt submit \
+            --firefox-channel listed \
+            --firefox-zip .output/*-firefox.zip \
+            --firefox-sources-zip .output/*-sources.zip
+          node scripts/verify-firefox.mjs
